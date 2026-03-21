@@ -1,6 +1,6 @@
 name = "jake-portfolio"
 compatibility_date = "2026-03-22"
-main = "src/worker.ts"
+main = "src/worker.js"
 
 [assets]
 directory = "./dist"
