@@ -10,7 +10,7 @@ export interface LoadingBarRefs {
 const LoadingBar = forwardRef<HTMLDivElement, LoadingBarRefs>(
   ({ labelRef, barRef }, ref) => {
     return (
-      <div ref={ref} className="loading-bar-container font-mono mt-6">
+      <div ref={ref} className="loading-bar-container font-mono" style={{ position: 'absolute', top: 0, left: 0, width: '100%', opacity: 0 }}>
         <div className="text-sm text-[#4af626] leading-relaxed">
           <span ref={labelRef}>{LOADING_LABELS[0]}</span>
         </div>
