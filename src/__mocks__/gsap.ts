@@ -4,6 +4,7 @@ import { vi } from 'vitest'
 const timelineMock = {
   from: vi.fn().mockReturnThis(),
   to: vi.fn().mockReturnThis(),
+  set: vi.fn().mockReturnThis(),
   call: vi.fn().mockReturnThis(),
   add: vi.fn().mockReturnThis(),
   addLabel: vi.fn().mockReturnThis(),
@@ -29,7 +30,7 @@ const gsap = {
   set: vi.fn(),
   matchMedia: vi.fn(() => ({ ...matchMediaMock })),
   registerPlugin: vi.fn(),
-  delayedCall: vi.fn((delay: number, fn: () => void) => { fn(); return { kill: vi.fn() } }),
+  delayedCall: vi.fn((_delay: number, fn: () => void) => { fn(); return { kill: vi.fn() } }),
   context: vi.fn((fn: () => void) => { fn(); return { revert: vi.fn() } }),
 }
 
