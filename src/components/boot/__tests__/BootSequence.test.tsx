@@ -1,7 +1,6 @@
 // portfolio/src/components/boot/__tests__/BootSequence.test.tsx
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render } from '@testing-library/react'
 
 // Auto-resolved from portfolio/src/__mocks__/gsap.ts
 vi.mock('gsap')
@@ -29,21 +28,50 @@ Object.defineProperty(window, 'matchMedia', {
 })
 
 describe('BootSequence', () => {
-  // BOOT-01: BIOS lines and loading bar render
-  it.todo('renders BIOS header line "JAKE-OS BIOS v2.6.0" on mount')
-  it.todo('renders all 12 BIOS lines with ...OK suffix on spec lines')
-  it.todo('renders loading bar label "Loading kernel..." initially')
-  it.todo('renders ASCII bar string starting with "["')
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
 
-  // BOOT-02: Login prompt renders in sequence
+  // BOOT-01: BIOS lines render in the DOM
+  it('renders BIOS lines in the DOM on mount', async () => {
+    const { default: BootSequence } = await import('../BootSequence')
+    const { container } = render(<BootSequence onComplete={vi.fn()} />)
+    const biosLines = container.querySelectorAll('.bios-line')
+    expect(biosLines.length).toBeGreaterThan(0)
+  })
+
+  it('has aria-hidden="true" on the boot container', async () => {
+    const { default: BootSequence } = await import('../BootSequence')
+    const { container } = render(<BootSequence onComplete={vi.fn()} />)
+    const bootContainer = container.querySelector('[aria-hidden="true"]')
+    expect(bootContainer).toBeTruthy()
+  })
+
+  // BOOT-02: Login prompt renders in sequence (manual visual only — todo)
   it.todo('renders login prompt "jake-portfolio login:" after BIOS stage')
   it.todo('renders "Password:" line in login stage')
   it.todo('renders "Welcome, visitor." in login stage')
 
-  // BOOT-03: Skip on keypress/mousedown
-  it.todo('calls timeline.progress(1) when keydown event fires during boot')
-  it.todo('calls timeline.progress(1) when mousedown event fires during boot')
+  // BOOT-03: Skip on keypress/mousedown — verify listeners are registered
+  it('registers keydown listener on mount', async () => {
+    const { default: BootSequence } = await import('../BootSequence')
+    const addEventSpy = vi.spyOn(window, 'addEventListener')
+    render(<BootSequence onComplete={vi.fn()} />)
+    expect(addEventSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
+  })
 
-  // ACCS-02: prefers-reduced-motion
-  it.todo('calls onComplete immediately when prefers-reduced-motion: reduce is active')
+  it('registers mousedown listener on mount', async () => {
+    const { default: BootSequence } = await import('../BootSequence')
+    const addEventSpy = vi.spyOn(window, 'addEventListener')
+    render(<BootSequence onComplete={vi.fn()} />)
+    expect(addEventSpy).toHaveBeenCalledWith('mousedown', expect.any(Function))
+  })
+
+  // ACCS-02: prefers-reduced-motion — verify gsap.matchMedia is called
+  it('calls gsap.matchMedia() to handle reduced-motion preference', async () => {
+    const gsap = (await import('gsap')).default
+    const { default: BootSequence } = await import('../BootSequence')
+    render(<BootSequence onComplete={vi.fn()} />)
+    expect(gsap.matchMedia).toHaveBeenCalled()
+  })
 })
