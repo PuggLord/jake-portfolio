@@ -20,14 +20,13 @@ const BiosPost = forwardRef<HTMLDivElement>((_, ref) => {
             </div>
           )
         }
-        // Spec lines and memory test line: label left, ok right-aligned
+        // Spec lines and memory test line: label + ok inline (no flex — authentic kernel layout)
         return (
           <div
             key={i}
-            className="bios-line flex justify-between text-sm text-[#4af626] leading-relaxed"
+            className="bios-line text-sm text-[#4af626] leading-relaxed"
           >
-            <span>{line.label}</span>
-            {line.ok && <span className="pl-1">{line.ok}</span>}
+            {line.label}{line.ok}
           </div>
         )
       })}
