@@ -30,7 +30,7 @@ const gsap = {
   set: vi.fn(),
   matchMedia: vi.fn(() => ({ ...matchMediaMock })),
   registerPlugin: vi.fn(),
-  delayedCall: vi.fn((delay: number, fn: () => void) => { fn(); return { kill: vi.fn() } }),
+  delayedCall: vi.fn((_delay: number, fn: () => void) => { fn(); return { kill: vi.fn() } }),
   context: vi.fn((fn: () => void) => { fn(); return { revert: vi.fn() } }),
 }
 
