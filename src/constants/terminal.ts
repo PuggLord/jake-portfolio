@@ -70,9 +70,15 @@ export const COMMAND_REGISTRY: Record<string, CommandHandler> = {
   help: (_args) => HELP_OUTPUT_ITEMS,
   clear: (_args) => [],
   // Phase 4 stub entries — return placeholder text until Phase 4 replaces them
-  about:    (_args) => [{ kind: 'text', content: '// about — coming in Phase 4', id: uid() }],
-  projects: (_args) => [{ kind: 'text', content: '// projects — coming in Phase 4', id: uid() }],
-  blog:     (_args) => [{ kind: 'text', content: '// blog — coming in Phase 4', id: uid() }],
-  contact:  (_args) => [{ kind: 'text', content: '// contact — coming in Phase 4', id: uid() }],
-  resume:   (_args) => [{ kind: 'text', content: '// resume — coming in Phase 4', id: uid() }],
+  about:    (_args) => [{ kind: 'text', content: '// about — coming soon', id: uid() }],
+  projects: (_args) => [{ kind: 'text', content: '// projects — coming soon', id: uid() }],
+  blog:     (_args) => [{ kind: 'text', content: '// blog — coming soon', id: uid() }],
+  contact:  (_args) => [{ kind: 'text', content: '// contact — coming soon', id: uid() }],
+  resume:   (_args) => [{ kind: 'text', content: '// resume — coming soon', id: uid() }],
+  // Easter egg
+  pug: (_args) => [
+    { kind: 'text', content: '  (\\(\\', id: uid() },
+    { kind: 'text', content: '  ( -.-)    woof! you found the secret pug command', id: uid() },
+    { kind: 'text', content: "  o_(\")(\")", id: uid() },
+  ],
 }
