@@ -4,7 +4,7 @@ import { BIOS_LINES } from '../../constants/boot'
 
 const BiosPost = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <div ref={ref} className="font-mono">
+    <div ref={ref} className="font-mono" style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
       {BIOS_LINES.map((line, i) => {
         if (line.isHeader) {
           return (

@@ -58,8 +58,14 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
           stagger: BOOT_TIMING.biosLineStagger,
         })
 
-        // --- Stage 2: Loading bar ---
-        tl.set('.loading-bar-container', { opacity: 0 })
+        // Fade out BIOS, then loading bar takes over at top-left
+        tl.to(biosRef.current, {
+          opacity: 0,
+          duration: BOOT_TIMING.biosFadeOut,
+          ease: 'power1.in',
+        })
+
+        // --- Stage 2: Loading bar (starts at top-left after BIOS clears) ---
         tl.to('.loading-bar-container', { opacity: 1, duration: 0.1 })
 
         // Helper: update bar text content directly (no React state)
@@ -103,17 +109,12 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
         })
 
         // --- Stage 3: Login prompt ---
-        // Fade out BIOS content and loading bar, reveal login
-        tl.to(biosRef.current, {
-          opacity: 0,
-          duration: BOOT_TIMING.biosFadeOut,
-          ease: 'power1.in',
-        })
+        // Fade out loading bar, then login appears at top-left
         tl.to(loadingBarRef.current, {
           opacity: 0,
           duration: BOOT_TIMING.biosFadeOut,
           ease: 'power1.in',
-        }, '<') // parallel with BIOS fade
+        })
 
         // Show login wrapper
         tl.set(loginWrapperRef.current, { opacity: 1 })
@@ -205,7 +206,19 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
   return (
     <div
       ref={containerRef}
-      className="boot-container fixed inset-0 bg-[#0d1117] p-4 z-0 overflow-hidden"
+      className="boot-container"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#0d1117',
+        padding: 0,
+        margin: 0,
+        zIndex: 50,
+        overflow: 'hidden',
+      }}
       aria-hidden="true"
     >
       {/* Stage 1: BIOS POST */}
@@ -215,7 +228,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
       <LoadingBar ref={loadingBarRef} labelRef={labelRef} barRef={barRef} />
 
       {/* Stage 3: Login prompt (initially hidden — GSAP reveals loginWrapperRef) */}
-      <div ref={loginWrapperRef} style={{ opacity: 0 }}>
+      <div ref={loginWrapperRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', opacity: 0 }}>
         <LoginPrompt
           ref={loginRef}
           usernameRef={usernameRef}
