@@ -1,5 +1,8 @@
 // portfolio/src/constants/terminal.ts
 import type { OutputItem } from '../store/terminal'
+import { useTerminalStore } from '../store/terminal'
+import { projects } from '../content/projects'
+import { posts } from '../content/posts'
 
 // ─── Prompt & UI ───────────────────────────────────────────────────────────
 
@@ -29,11 +32,11 @@ export const MOBILE_COMMANDS: CommandName[] = [
  * Font: "Big" from https://patorjk.com/software/taag/
  * Each line is ≤80 characters. Verified before committing.
  */
-export const ASCII_BANNER = `     _       _    _  _____   __  __    _   _  ___ ____
-    | |  /\\  | |/ /| ____|  |  \\/  |  /\\  | \\ | ||_ _/ ___|
- _  | | /  \\ |  <  |  _|   | |\\/| | /  \\ |  \\| || |\\___ \\
-| |_| |/ /\\ \\ |\\  \\| |___  | |  | |/ /\\ \\| |\\  || | ___) |
- \\___//_/  \\_\\_| \\_|_____|  |_|  |_/_/  \\_\\_| \\_||___|____/`
+export const ASCII_BANNER = `      _   _    _  _______   __  __    _    _   _ ___ ____
+     | | / \\  | |/ / ____| |  \\/  |  / \\  | \\ | |_ _/ ___|
+  _  | |/ _ \\ | ' /|  _|   | |\\/| | / _ \\ |  \\| || |\\___ \\
+ | |_| / ___ \\| . \\| |___  | |  | |/ ___ \\| |\\  || | ___) |
+  \\___/_/   \\_\\_|\\_\\_____| |_|  |_/_/   \\_\\_| \\_|___|____/`
 
 // ─── Help Output ───────────────────────────────────────────────────────────
 
@@ -69,10 +72,46 @@ export type CommandHandler = (args: string[]) => OutputItem[]
 export const COMMAND_REGISTRY: Record<string, CommandHandler> = {
   help: (_args) => HELP_OUTPUT_ITEMS,
   clear: (_args) => [],
-  // Phase 4 stub entries — return placeholder text until Phase 4 replaces them
-  about:    (_args) => [{ kind: 'text', content: '// about — coming in Phase 4', id: uid() }],
-  projects: (_args) => [{ kind: 'text', content: '// projects — coming in Phase 4', id: uid() }],
-  blog:     (_args) => [{ kind: 'text', content: '// blog — coming in Phase 4', id: uid() }],
-  contact:  (_args) => [{ kind: 'text', content: '// contact — coming in Phase 4', id: uid() }],
-  resume:   (_args) => [{ kind: 'text', content: '// resume — coming in Phase 4', id: uid() }],
+  // Phase 4 real implementations (CONT-01 through CONT-05)
+  about: (_args) => {
+    useTerminalStore.getState().setActiveModal({ type: 'about', id: null })
+    return []
+  },
+  projects: (_args) => [
+    { kind: 'text' as const, content: 'projects — select one to view details', id: uid() },
+    ...projects.map((p) => ({
+      kind: 'modal-link' as const,
+      label: p.name,
+      modalType: 'project' as const,
+      payload: p.slug,
+      id: uid(),
+    })),
+  ],
+  blog: (_args) => [
+    { kind: 'text' as const, content: 'posts — select one to read', id: uid() },
+    ...posts.map((p) => ({
+      kind: 'modal-link' as const,
+      label: p.title,
+      modalType: 'post' as const,
+      payload: p.slug,
+      id: uid(),
+    })),
+  ],
+  contact: (_args) => {
+    useTerminalStore.getState().setActiveModal({ type: 'contact', id: null })
+    return []
+  },
+  resume: (_args) => {
+    useTerminalStore.getState().setActiveModal({ type: 'resume', id: null })
+    return []
+  },
+  // Silent aliases — not in COMMAND_NAMES, HELP_OUTPUT_ITEMS, or MOBILE_COMMANDS (Decision E)
+  whoami: (_args) => COMMAND_REGISTRY['about'](_args),
+  ls:     (_args) => COMMAND_REGISTRY['projects'](_args),
+  // Easter egg
+  pug: (_args) => [
+    { kind: 'text', content: '  (\\(\\', id: uid() },
+    { kind: 'text', content: '  ( -.-)    woof! you found the secret pug command', id: uid() },
+    { kind: 'text', content: "  o_(\")(\")", id: uid() },
+  ],
 }

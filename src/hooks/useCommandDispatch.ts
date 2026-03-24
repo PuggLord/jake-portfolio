@@ -5,6 +5,12 @@ import { COMMAND_REGISTRY, PROMPT } from '../constants/terminal'
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2)
 
+// Compound alias pre-processing — multi-word inputs that map to a single command
+// Must be checked before splitting on whitespace (e.g. "cat posts" → "blog")
+const COMPOUND_ALIASES: Record<string, string> = {
+  'cat posts': 'blog',
+}
+
 /**
  * Returns a dispatch function that resolves a command name, appends the
  * simulated prompt echo + output items to the store, and records history.
@@ -19,6 +25,13 @@ export function useCommandDispatch() {
   return function dispatch(rawInput: string) {
     const input = rawInput.trim()
     if (!input) return
+
+    // Compound alias pre-processing (e.g. "cat posts" → "blog")
+    // Must check before split to handle multi-word inputs
+    const compoundTarget = COMPOUND_ALIASES[input.toLowerCase()]
+    if (compoundTarget) {
+      return dispatch(compoundTarget)
+    }
 
     // Push to session history (before resolving — consistent with real shells)
     pushHistory(input)

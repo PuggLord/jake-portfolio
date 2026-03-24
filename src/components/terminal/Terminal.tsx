@@ -11,14 +11,15 @@ import StatusBar from './StatusBar'
 
 export default function Terminal() {
   const appendOutput = useTerminalStore((s) => s.appendOutput)
-  const output = useTerminalStore((s) => s.output)
   const dispatch = useCommandDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
+  // hasSeeded ref survives StrictMode double-effect; output.length check fails because
+  // the closure captures stale [] before the store update propagates.
+  const hasSeeded = useRef(false)
 
-  // Seed banner + help on first mount only.
-  // Guard: output.length === 0 prevents double-seeding on React StrictMode double-mount.
   useEffect(() => {
-    if (output.length === 0) {
+    if (!hasSeeded.current) {
+      hasSeeded.current = true
       const initialItems: OutputItem[] = [
         { kind: 'text', content: ASCII_BANNER, id: 'banner' },
         { kind: 'text', content: 'software engineer', id: 'subtitle' },
@@ -28,18 +29,16 @@ export default function Terminal() {
       appendOutput(initialItems)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // intentionally fire once on mount
+  }, [])
 
   return (
     <div className="flex flex-col bg-[#0d1117] h-screen overflow-hidden">
-      {/* Scrollable region: output + input */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* TerminalOutput fills remaining space, scrolls independently */}
+      {/* pb-8 clears the fixed StatusBar so TerminalInput is never covered */}
+      <div className="flex-1 flex flex-col overflow-hidden pb-8">
         <TerminalOutput
           onCommand={dispatch}
           inputRef={inputRef}
         />
-        {/* Input row — not scrolled, always visible at bottom of this flex column */}
         <TerminalInput inputRef={inputRef} />
       </div>
 
