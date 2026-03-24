@@ -1,5 +1,8 @@
 // portfolio/src/constants/terminal.ts
 import type { OutputItem } from '../store/terminal'
+import { useTerminalStore } from '../store/terminal'
+import { projects } from '../content/projects'
+import { posts } from '../content/posts'
 
 // ─── Prompt & UI ───────────────────────────────────────────────────────────
 
@@ -69,12 +72,42 @@ export type CommandHandler = (args: string[]) => OutputItem[]
 export const COMMAND_REGISTRY: Record<string, CommandHandler> = {
   help: (_args) => HELP_OUTPUT_ITEMS,
   clear: (_args) => [],
-  // Phase 4 stub entries — return placeholder text until Phase 4 replaces them
-  about:    (_args) => [{ kind: 'text', content: '// about — coming soon', id: uid() }],
-  projects: (_args) => [{ kind: 'text', content: '// projects — coming soon', id: uid() }],
-  blog:     (_args) => [{ kind: 'text', content: '// blog — coming soon', id: uid() }],
-  contact:  (_args) => [{ kind: 'text', content: '// contact — coming soon', id: uid() }],
-  resume:   (_args) => [{ kind: 'text', content: '// resume — coming soon', id: uid() }],
+  // Phase 4 real implementations (CONT-01 through CONT-05)
+  about: (_args) => {
+    useTerminalStore.getState().setActiveModal({ type: 'about', id: null })
+    return []
+  },
+  projects: (_args) => [
+    { kind: 'text' as const, content: 'projects — select one to view details', id: uid() },
+    ...projects.map((p) => ({
+      kind: 'modal-link' as const,
+      label: p.name,
+      modalType: 'project' as const,
+      payload: p.slug,
+      id: uid(),
+    })),
+  ],
+  blog: (_args) => [
+    { kind: 'text' as const, content: 'posts — select one to read', id: uid() },
+    ...posts.map((p) => ({
+      kind: 'modal-link' as const,
+      label: p.title,
+      modalType: 'post' as const,
+      payload: p.slug,
+      id: uid(),
+    })),
+  ],
+  contact: (_args) => {
+    useTerminalStore.getState().setActiveModal({ type: 'contact', id: null })
+    return []
+  },
+  resume: (_args) => {
+    useTerminalStore.getState().setActiveModal({ type: 'resume', id: null })
+    return []
+  },
+  // Silent aliases — not in COMMAND_NAMES, HELP_OUTPUT_ITEMS, or MOBILE_COMMANDS (Decision E)
+  whoami: (_args) => COMMAND_REGISTRY['about'](_args),
+  ls:     (_args) => COMMAND_REGISTRY['projects'](_args),
   // Easter egg
   pug: (_args) => [
     { kind: 'text', content: '  (\\(\\', id: uid() },
