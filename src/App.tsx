@@ -3,15 +3,7 @@ import { useState, useEffect } from 'react'
 import { useTerminalStore } from './store/terminal'
 import { VISITED_KEY } from './constants/boot'
 import BootSequence from './components/boot/BootSequence'
-
-// Terminal placeholder — Phase 3 replaces this with the real Terminal component
-function Terminal() {
-  return (
-    <div className="min-h-screen flex items-center justify-center font-mono text-[#4af626]">
-      <p>{'>'} jake-os terminal — Phase 3 will wire this up</p>
-    </div>
-  )
-}
+import Terminal from './components/terminal/Terminal'
 
 export default function App() {
   const phase = useTerminalStore((s) => s.phase)
