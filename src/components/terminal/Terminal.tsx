@@ -8,6 +8,7 @@ import TerminalOutput from './TerminalOutput'
 import TerminalInput from './TerminalInput'
 import MobileCommandBar from './MobileCommandBar'
 import StatusBar from './StatusBar'
+import ModalRouter from '../modal/ModalRouter'
 
 export default function Terminal() {
   const appendOutput = useTerminalStore((s) => s.appendOutput)
@@ -22,7 +23,7 @@ export default function Terminal() {
       hasSeeded.current = true
       const initialItems: OutputItem[] = [
         { kind: 'text', content: ASCII_BANNER, id: 'banner' },
-        { kind: 'text', content: 'software engineer', id: 'subtitle' },
+        { kind: 'text', content: 'data scientist', id: 'subtitle' },
         { kind: 'text', content: "type 'help' to get started", id: 'hint' },
         ...HELP_OUTPUT_ITEMS,
       ]
@@ -46,6 +47,8 @@ export default function Terminal() {
       {/* MobileCommandBar z-40 sits above StatusBar z-30 */}
       <MobileCommandBar onCommand={dispatch} />
       <StatusBar />
+      {/* Phase 4: Modal system — z-50 sits above MobileCommandBar z-40 */}
+      <ModalRouter inputRef={inputRef} />
     </div>
   )
 }

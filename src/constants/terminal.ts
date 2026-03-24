@@ -10,7 +10,7 @@ import { posts } from '../content/posts'
 export const PROMPT = 'jake-os $ '
 
 /** Fixed status bar content — always visible at bottom of viewport */
-export const STATUS_BAR_TEXT = "jake-os v1.0  |  type 'help' to get started"
+export const STATUS_BAR_TEXT = "jake-os v1.0  |  linkedin.com/in/jake-manis-304406311"
 
 // ─── Commands ──────────────────────────────────────────────────────────────
 
