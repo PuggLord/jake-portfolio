@@ -23,7 +23,7 @@ export default function Terminal() {
       hasSeeded.current = true
       const initialItems: OutputItem[] = [
         { kind: 'text', content: ASCII_BANNER, id: 'banner' },
-        { kind: 'text', content: 'software engineer', id: 'subtitle' },
+        { kind: 'text', content: 'data scientist', id: 'subtitle' },
         { kind: 'text', content: "type 'help' to get started", id: 'hint' },
         ...HELP_OUTPUT_ITEMS,
       ]
