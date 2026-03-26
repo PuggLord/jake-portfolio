@@ -44,11 +44,15 @@ export default function OutputItem({ item, onCommand, inputRef }: Props) {
       </div>
     )
   }
-  return (
-    <div>
-      <span className="font-mono whitespace-pre-wrap leading-[1.5]" style={{ color: 'var(--accent)' }}>
-        {item.content}
-      </span>
-    </div>
-  )
+  if (item.kind === 'text') {
+    return (
+      <div>
+        <span className="font-mono whitespace-pre-wrap leading-[1.5]" style={{ color: 'var(--accent)' }}>
+          {item.content}
+        </span>
+      </div>
+    )
+  }
+  // theme-list — rendered by Plan 03; placeholder until ThemeList component is built
+  return null
 }
