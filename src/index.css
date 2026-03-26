@@ -1,6 +1,36 @@
 /* src/index.css */
 @import "tailwindcss";
 
+/* ─── Theme tokens ─────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-accent: var(--accent);
+  --color-bg: var(--bg);
+  --color-terminal-text: var(--text);
+}
+
+/* ─── Theme palettes ────────────────────────────────────────────────────────── */
+
+[data-theme="green"] {
+  --bg: #0d1117;
+  --text: #c9d1d9;
+  --accent: #4af626;
+}
+
+[data-theme="amber"] {
+  --bg: #0d0a00;
+  --text: #e8d5a3;
+  --accent: #ffb347;
+}
+
+[data-theme="blue"] {
+  --bg: #0d1117;
+  --text: #c9d1d9;
+  --accent: #58a6ff;
+}
+
+/* ─── Base styles ───────────────────────────────────────────────────────────── */
+
 @font-face {
   font-family: 'JetBrains Mono';
   src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
@@ -19,7 +49,7 @@
 
 body {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  background-color: #0d1117;
-  color: #c9d1d9;
+  background-color: var(--bg);
+  color: var(--text);
   margin: 0;
 }
