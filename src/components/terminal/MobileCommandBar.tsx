@@ -7,12 +7,19 @@ interface Props {
 
 export default function MobileCommandBar({ onCommand }: Props) {
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] bg-[#0d1117] border-t border-[#4af626]/30">
+    <div
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] border-t"
+      style={{
+        backgroundColor: 'var(--bg)',
+        borderTopColor: 'color-mix(in srgb, var(--accent) 30%, transparent)',
+      }}
+    >
       <div className="flex flex-wrap gap-2 p-2 justify-center">
         {MOBILE_COMMANDS.map((cmd) => (
           <button
             key={cmd}
-            className="border border-[#4af626] text-[#4af626] font-mono text-sm px-2 py-1 bg-[#0d1117] cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="font-mono text-sm px-2 py-1 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center border"
+            style={{ borderColor: 'var(--accent)', color: 'var(--accent)', backgroundColor: 'var(--bg)' }}
             onClick={() => onCommand(cmd)}
             aria-label={`Run ${cmd} command`}
           >

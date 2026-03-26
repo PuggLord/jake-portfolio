@@ -33,7 +33,7 @@ export default function Terminal() {
   }, [])
 
   return (
-    <div className="flex flex-col bg-[#0d1117] h-screen overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg)' }}>
       {/* pb-8 clears the fixed StatusBar so TerminalInput is never covered */}
       <div className="flex-1 flex flex-col overflow-hidden pb-8">
         <TerminalOutput
