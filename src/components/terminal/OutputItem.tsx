@@ -14,7 +14,8 @@ export default function OutputItem({ item, onCommand, inputRef }: Props) {
       <div>
         <button
           role="link"
-          className="text-[#4af626] font-mono underline decoration-transparent hover:decoration-[#4af626] underline-offset-2 cursor-pointer transition-all duration-150 bg-transparent border-none p-0"
+          className="font-mono underline decoration-transparent hover:decoration-current underline-offset-2 cursor-pointer transition-all duration-150 bg-transparent border-none p-0"
+          style={{ color: 'var(--accent)' }}
           onClick={(e) => {
             e.preventDefault()
             onCommand(item.command)
@@ -32,7 +33,8 @@ export default function OutputItem({ item, onCommand, inputRef }: Props) {
         <button
           role="button"
           aria-label={`Open ${item.label} details`}
-          className="text-[#4af626] font-mono underline decoration-transparent hover:decoration-[#4af626] underline-offset-2 cursor-pointer transition-all duration-150 bg-transparent border-none p-0"
+          className="font-mono underline decoration-transparent hover:decoration-current underline-offset-2 cursor-pointer transition-all duration-150 bg-transparent border-none p-0"
+          style={{ color: 'var(--accent)' }}
           onClick={() => {
             useTerminalStore.getState().setActiveModal({ type: item.modalType, id: item.payload })
           }}
@@ -42,11 +44,15 @@ export default function OutputItem({ item, onCommand, inputRef }: Props) {
       </div>
     )
   }
-  return (
-    <div>
-      <span className="text-[#4af626] font-mono whitespace-pre-wrap leading-[1.5]">
-        {item.content}
-      </span>
-    </div>
-  )
+  if (item.kind === 'text') {
+    return (
+      <div>
+        <span className="font-mono whitespace-pre-wrap leading-[1.5]" style={{ color: 'var(--accent)' }}>
+          {item.content}
+        </span>
+      </div>
+    )
+  }
+  // theme-list — rendered by Plan 03; placeholder until ThemeList component is built
+  return null
 }
