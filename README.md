@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# jake-os — OS-style Terminal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive terminal-style portfolio built to feel like a personal operating system. Type commands to navigate, explore projects, and get in touch.
 
-Currently, two official plugins are available:
+**Live:** https://jake-portfolio.jacobmanis.workers.dev
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Lighthouse](https://img.shields.io/badge/Lighthouse-pending-green)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Terminal interface** — type commands to explore, click links in the output
+- **Key commands:** `about`, `projects`, `blog`, `contact`, `resume`, `help`
+- **Theme system** — `theme green` / `theme amber` / `theme blue` — full-page color switching via CSS vars
+- **Easter eggs** — `sl`, `pug`, `sudo`, `cowsay`, `hack`, `vim` and more
+- **Boot sequence** — one-time animated startup for first-time visitors
+- **Mobile command bar** — tap-to-run chip strip on small screens
+- **Modal system** — project details, blog posts, contact form, resume viewer
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Layer | Tech |
+|-------|------|
+| UI | React 19, TypeScript, Vite |
+| State | Zustand |
+| Styling | Tailwind CSS v4 |
+| Font | JetBrains Mono (self-hosted) |
+| Deploy | Cloudflare Workers (Assets) |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Development
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build (tsc + vite)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Deploy:
+```bash
+npx wrangler deploy --name jake-portfolio --compatibility-date 2026-03-22 --assets=./dist
 ```
