@@ -14,11 +14,12 @@ describe('COMMAND_REGISTRY — Phase 5 easter eggs (EXTR-01)', () => {
     expect(allContent).toContain('sudoers file')
   })
 
-  it('COMMAND_REGISTRY["sl"] returns single OutputItem with multi-line ASCII train content', async () => {
+  it('COMMAND_REGISTRY["sl"] returns multi-line ASCII train as separate OutputItems', async () => {
     const { COMMAND_REGISTRY } = await import('./terminal')
     const result = COMMAND_REGISTRY['sl']([])
-    expect(result).toHaveLength(1)
-    expect('content' in result[0] && result[0].content).toContain('jake-os express')
+    expect(result.length).toBeGreaterThan(1)
+    const allContent = result.map((r: any) => 'content' in r ? r.content : '').join('\n')
+    expect(allContent).toContain('jake-os express')
   })
 
   it('COMMAND_REGISTRY["cowsay"] returns OutputItem[] with cow ASCII art content', async () => {
