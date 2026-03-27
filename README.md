@@ -4,7 +4,7 @@ An interactive terminal-style portfolio built to feel like a personal operating 
 
 **Live:** https://jake-portfolio.jacobmanis.workers.dev
 
-![Lighthouse](https://img.shields.io/badge/Lighthouse-pending-green)
+![Lighthouse](https://img.shields.io/badge/Lighthouse-100-brightgreen)
 
 ## Features
 
