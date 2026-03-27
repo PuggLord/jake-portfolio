@@ -117,20 +117,14 @@ export const COMMAND_REGISTRY: Record<string, CommandHandler> = {
     { kind: 'text' as const, content: 'This incident has been reported to the Proxmox server.', id: uid() },
   ],
 
-  sl: (_args) => [{
-    kind: 'text' as const,
-    content:
-`      ====        ________                ___________
-  _D _|  |_______/        \\__I_I_____===__|_________|
-   |(_)---  |   H\\________/ |   |        =|___ ___|
-   /     |  |   H  |  |     |   |         ||_| |_||
-  |      |  |   H  |__--------------------| [___] |
-  | ________|___H__/__|_____/[][]~\\_______|       |
-  |/ |   |-----------I_____I [][] []  D   |=======|
-   __/  _/            \\_____n_nm....*|...|_________|
-  ~~~~~                     jake-os express`,
-    id: uid(),
-  }],
+  sl: (_args) => [
+    { kind: 'text' as const, content: '      +------------------+', id: uid() },
+    { kind: 'text' as const, content: '      |  jake-os express |', id: uid() },
+    { kind: 'text' as const, content: '      +------------------+', id: uid() },
+    { kind: 'text' as const, content: ' _______|________________|_______', id: uid() },
+    { kind: 'text' as const, content: '(  o  o  o     [_____]     o  o  )', id: uid() },
+    { kind: 'text' as const, content: ' ~~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~~', id: uid() },
+  ],
 
   cowsay: (_args) => [{
     kind: 'text' as const,
@@ -157,19 +151,11 @@ export const COMMAND_REGISTRY: Record<string, CommandHandler> = {
   ],
 
   // Replace old generic pug entry with proper ASCII pug face
-  pug: (_args) => [{
-    kind: 'text' as const,
-    content:
-`  __   __
- /  \\_/  \\
-| o   o   |
-|  (w)    |   woof! you found PuggLord's secret command
- \\  ___  /
-  \\ \\_/ /
-   |   |
-   |___|`,
-    id: uid(),
-  }],
+  pug: (_args) => [
+    { kind: 'text' as const, content: '  /\\_/\\  ', id: uid() },
+    { kind: 'text' as const, content: ' ( o.o ) ', id: uid() },
+    { kind: 'text' as const, content: '  > ^ <  woof! you found PuggLord\'s secret command', id: uid() },
+  ],
 
   dog: (_args) => COMMAND_REGISTRY['pug']([]),
 
