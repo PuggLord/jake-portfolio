@@ -9,6 +9,7 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2)
 // Must be checked before splitting on whitespace (e.g. "cat posts" → "blog")
 const COMPOUND_ALIASES: Record<string, string> = {
   'cat posts': 'blog',
+  'rm -rf /': 'rm-rf',
 }
 
 /**

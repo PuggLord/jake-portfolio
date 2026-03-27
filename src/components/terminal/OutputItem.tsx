@@ -53,6 +53,23 @@ export default function OutputItem({ item, onCommand, inputRef }: Props) {
       </div>
     )
   }
-  // theme-list — rendered by Plan 03; placeholder until ThemeList component is built
+  if (item.kind === 'theme-list') {
+    return (
+      <div className="font-mono">
+        <div style={{ color: 'var(--accent)' }}>Available themes:</div>
+        {item.themes.map((t) => (
+          <div key={t.name} className="pl-2">
+            {/* Swatch uses hardcoded hex so all 3 show distinct colors simultaneously */}
+            <span style={{ color: t.hex }}>█</span>
+            {' '}
+            <span style={{ color: 'var(--accent)' }}>
+              {t.name}{t.current ? '   (current)' : ''}
+            </span>
+          </div>
+        ))}
+        <div style={{ color: 'var(--accent)' }} className="mt-1">Usage: theme [name]</div>
+      </div>
+    )
+  }
   return null
 }
